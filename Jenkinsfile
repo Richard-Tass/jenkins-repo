@@ -21,5 +21,10 @@ pipeline{
                 sh 'cat /etc/os-release'
             }
         }
+        stage('5-greetings'){
+            steps{
+                echo "welcome to groovy"
+            }
+        }
     }
 }
