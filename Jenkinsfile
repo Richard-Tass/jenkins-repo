@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('1-repoClone'){
             steps{
-                sh 'df -h'
+                sh'checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '0d2811ba-62ff-4728-bd63-58348c041f3d', url: 'https://github.com/Richard-Tass/team4-git-day1.git']]])'
             }
         }
         stage('2-cpuAnalysis'){
