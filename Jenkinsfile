@@ -23,7 +23,7 @@ pipeline{
         }
         stage('5-greetings'){
             steps{
-                echo "ech0 $?"
+                echo "Hello groovy"
             }
         }
     }
