@@ -1,35 +1,36 @@
-pipeline{
-    agent any
-    stages{
-        stage('1-repoClone'){
-            steps{
-                sh'checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '0d2811ba-62ff-4728-bd63-58348c041f3d', url: 'https://github.com/Richard-Tass/jenkins-repo.git']]])'
-            }
-        }
-        stage('2-cpuAnalysis'){
-            steps{
-                sh 'lscpu'
-            }
-        }
-        stage('3-memoryCheck'){
-            steps{
-                sh 'free -g'
-            }
-        }
-        stage('4-os-stats'){
-            steps{
-                sh 'cat /etc/os-release'
-            }
-        }
-        stage('5-greetings'){
-            steps{
-                echo "Hello groovy"
-            }
-        }
-        stage('6-securityCheck'){
-            steps{
-                sh 'bash -x/var/lib/jenkins/workspace/practical-groovy/security.sh'
-            }
+pipeline {
+  agent any
+  tools {
+    maven 'maven'
+  }
+  stages{
+    stage('1-git-clone'){
+      steps{
+        checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'e887658f-a27b-4cdd-908d-41cf6eeebe37', url: 'https://github.com/Richard-Tass/jenkins-repo.git']]])
+      }
+    }
+    stage('2-cleanws'){
+      steps{
+        sh 'mvn clean'
+      }
+    }
+    stage('3-mavenbuild'){
+      steps{
+        sh 'mvn package'
+      }
+    }
+      stage('unittest'){
+        steps{
+            sh 'mvn test'
         }
     }
+    stage('codequality'){
+      steps{
+        sh 'mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=etech-team4 \
+  -Dsonar.host.url=http://ec2-3-235-6-186.compute-1.amazonaws.com:9000 \
+  -Dsonar.login=1'
+      }
+    }
+  }
 }
