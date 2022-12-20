@@ -27,9 +27,9 @@ pipeline {
     stage('codequality'){
       steps{
         sh 'mvn clean verify sonar:sonar \
-  -Dsonar.projectKey=sonarqube-demo-job \
-  -Dsonar.host.url=http://ec2-44-198-171-241.compute-1.amazonaws.com:9000 \
-  -Dsonar.login=sqp_4d9170678ed8fbb9e5f135bf6e69aa6cf58f1c73'
+  -Dsonar.projectKey=maven-sonarQube-job \
+  -Dsonar.host.url=http://ec2-3-238-86-198.compute-1.amazonaws.com:9000 \
+  -Dsonar.login=sqp_e0663b68e90a8f63645a06850a98334b384a5b80'
       }
     }
   }
